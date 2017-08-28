@@ -27,7 +27,6 @@ router.get('/:contactId', (request, response, next) => {
     .catch( error => renderError(error, response, response) )
 })
 
-
 router.get('/:contactId/delete', (request, response, next) => {
   const contactId = request.params.contactId
   DbContacts.deleteContact(contactId)

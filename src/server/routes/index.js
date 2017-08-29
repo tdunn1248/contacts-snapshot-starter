@@ -6,7 +6,7 @@ const DbUsers = require('../../db/users')
 
 router.get('/', (request, response) => {
   DbContacts.getContacts()
-    .then((contacts) => {response.render('index', { contacts })})
+    .then((contacts) => {response.render('index', { contacts, admin })})
     .catch( err => console.log('err', err) )
 })
 

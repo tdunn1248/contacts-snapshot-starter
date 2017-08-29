@@ -11,8 +11,12 @@ router.post('/signUp', (request, response, next) => {
     response.render('signUp', {error: 'Passwords do not match!'})
   } else {
     DbUsers.signUpUser(request.body)
-      .then(person => {console.log('added this dude-->', person)})
-      .catch(error => console.log(error))
+    .then(person => {response.redirect('/')})
+    .catch(error => {
+      if (error.code === '23505') {
+        response.render('signUp', {error: 'Email is already in use'})
+      }
+    })
   }
 })
 

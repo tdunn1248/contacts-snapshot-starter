@@ -13,7 +13,6 @@ const signUpUser = function(user){
       user.email,
       user.password,
     ])
-    .catch(error => error);
 }
 
 const loginUser = function(user) {

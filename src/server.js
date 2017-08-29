@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use((request, response, next) => {
   response.locals.query = ''
   response.locals.error = ''
+  response.locals.admin = null
   next()
 })
 

@@ -1,0 +1,23 @@
+<%- include header.ejs %>
+
+  <h1>Sign Up</h1>
+
+  <form method="post" action="/users/signUp" class="new-user-form">
+    <pre class="new-contact-form-errors"></pre>
+    <label>
+      <span>Email:</span>
+      <input type="text" name="email" />
+    </label>
+    <label>
+      <span>Password:</span>
+      <input type="text" name="password" />
+    </label>
+    <label>
+      <span>Confirm Password:</span>
+      <input type="text" name="confirm_password" />
+    </label>
+    <input type="submit" value="Add Contact">
+    <h5><%= error %></h5>
+  </form>
+
+<%- include footer.ejs %>

@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const contacts = require('./contacts')
+const users = require('./users')
 const DbContacts = require('../../db/contacts');
+const DbUsers = require('../../db/users')
 
 router.get('/', (request, response) => {
   DbContacts.getContacts()
@@ -9,5 +11,6 @@ router.get('/', (request, response) => {
 })
 
 router.use('/contacts', contacts); // /contacts/search
+router.use('/users', users); // /contacts/search
 
 module.exports = router;

@@ -11,12 +11,20 @@ app.set('views', __dirname + '/views')
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
+
 app.use((request, response, next) => {
   response.locals.query = ''
   response.locals.error = ''
   response.locals.admin = null
   next()
 })
+
+app.use(expressSession({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 app.use('/', routes)
 

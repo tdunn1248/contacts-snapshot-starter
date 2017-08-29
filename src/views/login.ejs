@@ -2,7 +2,7 @@
 
   <h1>Login</h1>
 
-  <form method="post" action="/users/signUp" class="new-user-form">
+  <form method="post" action="/users/login" class="login-user-form">
     <pre class="new-contact-form-errors"></pre>
     <label>
       <span>Email:</span>
@@ -12,11 +12,7 @@
       <span>Password:</span>
       <input type="text" name="password" />
     </label>
-    <label>
-      <span>Confirm Password:</span>
-      <input type="text" name="confirm_password" />
-    </label>
-    <input type="submit" value="Add Contact">
+    <input type="submit" value="Login">
     <h5> <%= error %> </h5>
   </form>
 

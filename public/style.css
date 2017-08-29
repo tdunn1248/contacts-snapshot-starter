@@ -116,3 +116,39 @@ nav .search-form input {
   color: red;
   font-weight: bold;
 }
+.login-contact-form label {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.login-contact-form label > span {
+  display: inline-block;
+  min-width: 8em;
+}
+
+.login-contact-form input[type="submit"] {
+  margin-top: 1em;
+}
+
+.login-contact-form-errors {
+  color: red;
+  font-weight: bold;
+}
+.login-user-form label {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.login-user-form label > span {
+  display: inline-block;
+  min-width: 8em;
+}
+
+.login-user-form input[type="submit"] {
+  margin-top: 1em;
+}
+
+.login-user-form-errors {
+  color: red;
+  font-weight: bold;
+}

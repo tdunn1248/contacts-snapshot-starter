@@ -15,20 +15,20 @@ const signUpUser = function(user){
     ])
 }
 
-const loginUser = function(user) {
+const loginUser = function(email, password) {
   return db.query(`
-    SELECT * FROM
+    SELECT
+      email, password
+    FROM
       users
     WHERE
-      users.email = $1 &&
+      users.email = $1 AND
       users.password = $2
-    RETURNING *
-  `),
+  `,
   [
-    user.email,
-    user.password
-  ]
-  .catch(error => error)
+    email,
+    password
+  ])
 }
 
 function confirmSignUpPasswordMatch(password, confirmPassword) {
@@ -37,5 +37,6 @@ function confirmSignUpPasswordMatch(password, confirmPassword) {
 
 module.exports = {
   signUpUser,
+  loginUser,
   confirmSignUpPasswordMatch
 }

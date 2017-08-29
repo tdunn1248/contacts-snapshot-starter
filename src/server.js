@@ -23,7 +23,9 @@ app.use(expressSession({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: {
+    expires: 6000000
+  }
 }))
 
 app.use('/', routes)

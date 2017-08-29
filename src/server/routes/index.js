@@ -5,9 +5,13 @@ const DbContacts = require('../../db/contacts');
 const DbUsers = require('../../db/users')
 
 router.get('/', (request, response) => {
-  DbContacts.getContacts()
+  if(!request.session.name) {
+    response.redirect('/users/signUp')
+  } else {
+    DbContacts.getContacts()
     .then((contacts) => {response.render('index', { contacts })})
     .catch( err => console.log('err', err) )
+  }
 })
 
 router.use('/contacts', contacts); // /contacts/search

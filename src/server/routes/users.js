@@ -11,7 +11,10 @@ router.post('/signUp', (request, response) => {
     response.render('signUp', {error: 'Passwords do not match!'})
   } else {
     DbUsers.signUpUser(request.body)
-    .then(person => {response.redirect('/')})
+    .then(person => {
+      request.session.name = person[0].email
+      response.redirect('/')
+    })
     .catch(error => {
       if (error.code === '23505') {
         response.render('signUp', {error: 'Email is already in use'})
@@ -31,6 +34,7 @@ router.post('/login', (request, response) => {
     if(user.length == 0) {
       response.render('login', {error: 'Incorrect Email or Password'})
     } else {
+      request.session.name = user[0].email
       response.redirect('/')
     }
   })

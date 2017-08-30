@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 // const dbContacts = require('./db/contacts')
 const app = express()
-const {renderError} = require('./server/utils')
+const {renderError, verifyCurrentSession} = require('./server/utils')
 const routes = require('./server/routes');
 const expressSession = require('express-session')
 
@@ -29,7 +29,10 @@ app.use(expressSession({
   }
 }))
 
+
+app.use('/contacts', verifyCurrentSession)
 app.use('/', routes)
+
 
 app.use((request, response) => {
   response.render('not_found')

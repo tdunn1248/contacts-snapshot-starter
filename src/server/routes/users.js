@@ -1,4 +1,4 @@
-const DbUsers = require('../../db/users')
+const USER = require('../../models/users')
 
 const router = require('express').Router()
 
@@ -7,13 +7,12 @@ router.get('/signUp', (request, response, next) => {
 })
 
 router.post('/signUp', (request, response) => {
-  const {email, password} = request.body
-  if (!DbUsers.confirmSignUpPasswordMatch(password, request.body.confirm_password)) {
+  const {email, password, confirm_password} = request.body
+  if (password !== confirm_password) {
     response.render('signUp', {error: 'Passwords do not match!'})
   } else {
-    DbUsers.signUpUser(email, password)
+    USER.signUp(email, password)
     .then(person => {
-      console.log('we got here', person);
       request.session.name = person[0].email
       response.redirect('/')
     })
@@ -33,12 +32,12 @@ router.post('/login', (request, response) => {
   const {email, password} = request.body
   DbUsers.loginUser(email, password)
   .then(user => {
-    if(user.length == 0) {
-      response.render('login', {error: 'Incorrect Email or Password'})
-    } else {
-      request.session.name = user[0].email
-      response.redirect('/')
-    }
+     if (!user) {
+       response.render('login', {error: 'Incorrect Email or Password'})
+     } else {
+       response.session.name = user.name
+       response.redirect('/')
+     }
   })
   .catch(e => console.log('error from login ',e))
 })

@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const contacts = require('./contacts')
 const users = require('./users')
-const DbContacts = require('../../db/contacts');
-const DbUsers = require('../../db/users')
+const DbContacts = require('../../models/db/contacts');
+// const DbUsers = require('../../models/db/users')
 
 router.get('/', (request, response) => {
   if(!request.session.name) {

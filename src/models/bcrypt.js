@@ -9,8 +9,9 @@ function hash(password) {
 function comparePasswords(myPlaintextPassword, hashPassword) {
   return bcrypt.compare(myPlaintextPassword, hashPassword).then(function(res) {
     return res
-});
+  });
 }
+
 module.exports = {
   hash,
   comparePasswords

@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const dbContacts = require('./db/contacts')
+// const dbContacts = require('./db/contacts')
 const app = express()
 const {renderError} = require('./server/utils')
 const routes = require('./server/routes');

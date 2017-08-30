@@ -7,18 +7,24 @@ function signUp(email, password) {
   })
 }
 
+function confirmLogin(email,password) {
+  return dbUser.readUserPassword(email).then(userInfo => {
+    if (userInfo.length === 0) {
+      return new Error('No email found')
+    } else {
+      return bcrypt.comparePasswords(password, userInfo[0].password)
+      .then(res => {
+        return dbResponse = {
+          name : userInfo[0].email,
+          validLogin: res
+        }
+      })
+    }
+  })
+}
 
-
-// .then(userInfo => {
-//   return bcrypt.comparePasswords(password, userInfo[0].password)
-//     .then(res => {
-//       return dbResponse = {
-//         name : userInfo[0].email,
-//         validLogin: res
-//       }
-//     })
-// }).catch(e => console.log('from database', e))
 
 module.exports = {
-  signUp
+  signUp,
+  confirmLogin
 }

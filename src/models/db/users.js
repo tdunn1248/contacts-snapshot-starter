@@ -15,21 +15,18 @@ const create = function(email, password){
     ])
 }
 
-// const getUserPassword = function(email) {
-//   return db.query(`
-//     SELECT
-//       email, password
-//     FROM
-//       users
-//     WHERE
-//       users.email = $1
-//   `,
-//   [
-//     email
-//   ])
-// }
+const readUserPassword = function(email) {
+  return db.query(`
+    SELECT email, password
+    FROM users
+    WHERE email = $1
+  `,
+  [
+    email
+  ])
+}
 
 module.exports = {
-  create
-  // loginUser,
+  create,
+  readUserPassword
 }

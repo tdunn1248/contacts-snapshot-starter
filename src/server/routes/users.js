@@ -12,8 +12,8 @@ router.post('/signUp', (request, response) => {
     response.render('signUp', {error: 'Passwords do not match!'})
   } else {
     USER.signUp(email, password)
-    .then(person => {
-      request.session.name = person[0].email
+    .then(user => {
+      request.session.name = user[0].email
       response.redirect('/')
     })
     .catch(error => {
@@ -30,16 +30,14 @@ router.get('/login', (request, response, next) => {
 
 router.post('/login', (request, response) => {
   const {email, password} = request.body
-  DbUsers.loginUser(email, password)
-  .then(user => {
-     if (!user) {
-       response.render('login', {error: 'Incorrect Email or Password'})
-     } else {
-       response.session.name = user.name
-       response.redirect('/')
-     }
-  })
-  .catch(e => console.log('error from login ',e))
+  USER.confirmLogin(email, password).then(user => {
+    if (!user.validLogin) {
+      response.render('login', {error: 'Incorrect login information'})
+    } else {
+      request.session.name = user.name
+      response.redirect('/')
+    }
+  }).catch(e => console.log('caught',e))
 })
 
 router.get('/signout', (request, response) => {

@@ -1,5 +1,6 @@
 const DbUsers = require('../../db/users')
 
+console.log(DbUsers.signUpUser);
 const router = require('express').Router()
 
 router.get('/signUp', (request, response, next) => {
@@ -7,11 +8,13 @@ router.get('/signUp', (request, response, next) => {
 })
 
 router.post('/signUp', (request, response) => {
-  if (!DbUsers.confirmSignUpPasswordMatch(request.body.password, request.body.confirm_password)) {
+  const {email, password} = request.body
+  if (!DbUsers.confirmSignUpPasswordMatch(password, request.body.confirm_password)) {
     response.render('signUp', {error: 'Passwords do not match!'})
   } else {
-    DbUsers.signUpUser(request.body)
+    DbUsers.signUpUser(email, password)
     .then(person => {
+      console.log('we got here', person);
       request.session.name = person[0].email
       response.redirect('/')
     })
@@ -39,6 +42,12 @@ router.post('/login', (request, response) => {
     }
   })
   .catch(e => console.log('error from login ',e))
+})
+
+router.get('/signout', (request, response) => {
+  request.session.name = null
+  request.session.cookie.expires = new Date()
+  response.redirect('/')
 })
 
 module.exports = router

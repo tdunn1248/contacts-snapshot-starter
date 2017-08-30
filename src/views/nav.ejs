@@ -4,8 +4,8 @@
     <input name="q" type="search" placeholder="search" value="<%= query %>" autofocus/>
     <input type="submit" style="display: none" />
   </form>
-  <% if (admin) { %>
-    <a href="/contacts/new">New Contact</a>
+  <% if (user) { %>
+    <a href="/users/signout">Sign Out</a>
   <% } else { %>
     <a href="/users/login">Login</a>
   <% } %>

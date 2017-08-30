@@ -1,18 +1,21 @@
 const db = require('./db')
+const bcrypt = require('./bcrypt')
 
-const signUpUser = function(user){
-  return db.query(`
-    INSERT INTO
+const signUpUser = function(email, password){
+  return bcrypt.hash(password).then(hashPassword => {
+    return db.query(`
+      INSERT INTO
       users (email, password)
-    VALUES
+      VALUES
       ($1::text, $2::text)
-    RETURNING
+      RETURNING
       *
-    `,
-    [
-      user.email,
-      user.password,
-    ])
+      `,
+      [
+        email,
+        hashPassword,
+      ])
+  })
 }
 
 const loginUser = function(email, password) {

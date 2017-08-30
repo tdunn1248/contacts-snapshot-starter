@@ -16,6 +16,7 @@ app.use((request, response, next) => {
   response.locals.query = ''
   response.locals.error = ''
   response.locals.user = null
+  // athorization function that takes in request.session.name
   next()
 })
 

@@ -1,6 +1,5 @@
 const DbUsers = require('../../db/users')
 
-console.log(DbUsers.signUpUser);
 const router = require('express').Router()
 
 router.get('/signUp', (request, response, next) => {

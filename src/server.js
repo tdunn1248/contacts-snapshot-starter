@@ -1,11 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-// const dbContacts = require('./db/contacts')
 const app = express()
 const path = require('path')
-const {renderError, verifyCurrentSession} = require('./server/utils')
 const routes = require('./server/routes');
 const expressSession = require('express-session')
+const {renderError, verifyCurrentSession} = require('./server/utils')
 
 app.set('view engine', 'ejs');
 app.set('views', [path.join(__dirname, 'views'),
@@ -20,7 +19,6 @@ app.use((request, response, next) => {
   response.locals.query = ''
   response.locals.error = ''
   response.locals.user = null
-  // athorization function that takes in request.session.name
   next()
 })
 
@@ -33,10 +31,8 @@ app.use(expressSession({
   }
 }))
 
-
 app.use('/contacts', verifyCurrentSession)
 app.use('/', routes)
-
 
 app.use((request, response) => {
   response.render('not_found')

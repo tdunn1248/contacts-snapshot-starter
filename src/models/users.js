@@ -1,14 +1,14 @@
-const dbUser = require('./db/users')
+const DBUSERS = require('./db/users')
 const bcrypt = require('./bcrypt')
 
 function signUp(email, password) {
   return bcrypt.hash(password).then(hashPassword => {
-    return dbUser.create(email,hashPassword)
+    return DBUSERS.create(email,hashPassword)
   })
 }
 
 function confirmLogin(email,password) {
-  return dbUser.readUserPassword(email).then(userInfo => {
+  return DBUSERS.readPassword(email).then(userInfo => {
     if (userInfo.length === 0) {
       return new Error('No email found')
     } else {

@@ -1,23 +1,23 @@
-const dbContacts = require('./db/contacts')
+const DBCONTACTS = require('./db/contacts')
 
 const add = (contact) => {
-  return dbContacts.create(contact)
+  return DBCONTACTS.create(contact)
 }
 
 const retrieveAll = () => {
-  return dbContacts.readAll()
+  return DBCONTACTS.readAll()
 }
 
 const retrieveOne = (id) => {
-  return dbContacts.readOne(id)
+  return DBCONTACTS.readOne(id)
 }
 
 const remove = (id) => {
-  return dbContacts.deleteSingle(id)
+  return DBCONTACTS.deleteSingle(id)
 }
 
 const searchFor = (searchQuery) => {
-  return dbContacts.searchByName(searchQuery)
+  return DBCONTACTS.searchByName(searchQuery)
 }
 
 module.exports = {

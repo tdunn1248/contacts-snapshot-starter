@@ -1,18 +1,18 @@
 const db = require('./db')
 
-const create = function(email, password, admin){
+const create = function(email, password, role){
   return db.query(`
     INSERT INTO
-    users (email, password, admin)
+    users (email, password, role)
     VALUES
-    ($1::text, $2::text, $3::boolean)
+    ($1::text, $2::text, $3::text)
     RETURNING
     email, password
     `,
     [
       email,
       password,
-      admin
+      role
     ])
 }
 

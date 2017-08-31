@@ -4,7 +4,7 @@ const app = express()
 const path = require('path')
 const routes = require('./server/routes');
 const expressSession = require('express-session')
-const {renderError, verifyCurrentSession} = require('./server/utils')
+const {renderError, confirmUserSessionSession} = require('./server/utils')
 
 app.set('view engine', 'ejs');
 app.set('views', [path.join(__dirname, 'views'),
@@ -31,7 +31,7 @@ app.use(expressSession({
   }
 }))
 
-app.use('/contacts', verifyCurrentSession)
+app.use('/contacts', confirmUserSessionSession)
 app.use('/', routes)
 
 app.use((request, response) => {

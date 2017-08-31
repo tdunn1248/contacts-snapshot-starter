@@ -1,15 +1,11 @@
 const bcrypt = require('bcrypt')
 
 function hash(password) {
-  return bcrypt.hash(password, 10).then(function(hash) {
-    return hash
-  });
+  return bcrypt.hash(password, 10)
 }
 
 function comparePasswords(myPlaintextPassword, hashPassword) {
-  return bcrypt.compare(myPlaintextPassword, hashPassword).then(function(res) {
-    return res
-  });
+  return bcrypt.compare(myPlaintextPassword, hashPassword)
 }
 
 module.exports = {

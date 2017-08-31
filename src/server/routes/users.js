@@ -13,10 +13,12 @@ router.post('/signUp', (request, response) => {
   } else {
     USER.signUp(email, password)
     .then(user => {
+      console.log('from server', user);
       request.session.name = user[0].email
       response.redirect('/')
     })
     .catch(error => {
+      console.log('errored', error.stack);
       if (error.code === '23505') {
         response.render('signUp', {error: 'Email is already in use'})
       }
@@ -24,7 +26,7 @@ router.post('/signUp', (request, response) => {
   }
 })
 
-router.get('/login', (request, response, next) => {
+router.get('/login', (request, response) => {
   response.render('login')
 })
 

@@ -2,8 +2,14 @@ const DBUSERS = require('./db/users')
 const bcrypt = require('./bcrypt')
 
 function signUp(email, password) {
+  let admin;
   return bcrypt.hash(password).then(hashPassword => {
-    return DBUSERS.create(email,hashPassword)
+    if (checkAdminStatus(email)) {
+      admin = true
+    } else {
+      admin = false
+    }
+    return DBUSERS.create(email,hashPassword, admin)
   })
 }
 
@@ -23,6 +29,13 @@ function confirmLogin(email,password) {
   })
 }
 
+function checkAdminStatus(email) {
+  if (email.includes('.admin')) {
+    return true
+  } else {
+    return false
+  }
+}
 
 module.exports = {
   signUp,

@@ -9,7 +9,7 @@ router.get('/', (request, response) => {
   if(!request.session.name) {
     response.redirect('/users/login')
   } else {
-    CONTACT.getContacts()
+    CONTACT.retrieveAll()
     .then((contacts) => {response.render('index', { contacts, user: request.session.name })})
     .catch( err => console.log('err', err) )
   }

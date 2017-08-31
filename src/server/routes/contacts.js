@@ -8,7 +8,7 @@ router.get('/new', (request, response) => {
 })
 
 router.post('/', (request, response, next) => {
-  CONTACT.createContact(request.body)
+  CONTACT.add(request.body)
     .then(function(contact) {
       if (contact) return response.redirect(`/contacts/${contact[0].id}`)
       next()
@@ -19,7 +19,7 @@ router.post('/', (request, response, next) => {
 router.get('/:contactId', (request, response, next) => {
   const contactId = request.params.contactId
   if (!contactId || !/^\d+$/.test(contactId)) return next()
-  CONTACT.getContact(contactId)
+  CONTACT.retrieveOne(contactId)
     .then(function(contact) {
       if (contact) return response.render('show', { contact })
       next()
@@ -29,7 +29,7 @@ router.get('/:contactId', (request, response, next) => {
 
 router.get('/:contactId/delete', (request, response, next) => {
   const contactId = request.params.contactId
-  CONTACT.deleteContact(contactId)
+  CONTACT.remove(contactId)
     .then(function(contact) {
       if (contact) return response.redirect('/')
       next()

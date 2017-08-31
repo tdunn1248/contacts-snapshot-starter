@@ -2,12 +2,16 @@ const express = require('express')
 const bodyParser = require('body-parser')
 // const dbContacts = require('./db/contacts')
 const app = express()
+const path = require('path')
 const {renderError, verifyCurrentSession} = require('./server/utils')
 const routes = require('./server/routes');
 const expressSession = require('express-session')
 
 app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views')
+app.set('views', [path.join(__dirname, 'views'),
+                  path.join(__dirname, 'views/contacts/'),
+                  path.join(__dirname, 'views/partials/'),
+                  path.join(__dirname, 'views/users/')])
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))

@@ -3,6 +3,7 @@ const renderError = function(error, response, response){
 }
 
 const confirmUserSessionSession = function(request, response, next) {
+  console.log('hit');
   if (!request.session.username) {
     response.render('login')
   } else {

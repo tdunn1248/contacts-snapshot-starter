@@ -2,14 +2,14 @@ const user = require('../../models/users')
 const comparePasswords = require('../../models/bcrypt').comparePasswords
 const router = require('express').Router()
 
-router.get('/signUp', (request, response, next) => {
-  response.status(200).render('signup')
+router.get('/signup', (request, response, next) => {
+  response.status(200).render('users/signup')
 })
 
 router.post('/signup', (request, response) => {
   const {email, password, confirm_password} = request.body
   if (password !== confirm_password) {
-    response.status(200).render('signup', {error: 'Passwords do not match!'})
+    response.status(200).render('users/signup', {error: 'Passwords do not match!'})
   } else {
     user.signUp(email, password)
     .then(user => {
@@ -17,16 +17,15 @@ router.post('/signup', (request, response) => {
       response.redirect('/')
     })
     .catch(error => {
-      console.log('errored', error.stack);
       if (error.code === '23505') {
-        response.status(200).render('signup', {error: 'Email is already in use'})
+        response.status(200).render('users/signup', {error: 'Email is already in use'})
       }
     })
   }
 })
 
 router.get('/login', (request, response) => {
-  response.render('login')
+  response.render('users/login')
 })
 
 router.post('/login', (request, response) => {
@@ -36,7 +35,7 @@ router.post('/login', (request, response) => {
     comparePasswords(password, user[0].password)
     .then(validLogin => {
       if (!validLogin) {
-        response.status(200).render('login', {error: 'Password is incorrect'})
+        response.status(200).render('users/login', {error: 'Password is incorrect'})
       } else {
         request.session.username = user[0].email
         response.redirect('/')

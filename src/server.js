@@ -4,13 +4,10 @@ const app = express()
 const path = require('path')
 const routes = require('./server/routes');
 const expressSession = require('express-session')
-const {renderError, confirmUserSessionSession} = require('./server/utils')
+const {renderError} = require('./server/utils')
 
 app.set('view engine', 'ejs');
-app.set('views', [path.join(__dirname, 'views'),
-                  path.join(__dirname, 'views/contacts/'),
-                  path.join(__dirname, 'views/partials/'),
-                  path.join(__dirname, 'views/users/')])
+app.set('views', __dirname + '/views')
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -31,7 +28,7 @@ app.use(expressSession({
   }
 }))
 
-app.use('/contacts', confirmUserSessionSession)
+
 app.use('/', routes)
 
 app.use((request, response) => {

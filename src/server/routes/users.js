@@ -11,8 +11,10 @@ router.route('/signup')
     if (password !== confirm_password) {
       next(new Error('Passwords do not match'))
     } else {
+      console.log('got here');
       user.signUp(email, password)
       .then(user => {
+        console.log('dddddddd',user);
         assignUserSession(user, request)
         response.redirect('/')
       })

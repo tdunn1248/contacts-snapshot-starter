@@ -14,5 +14,5 @@ const grabUserPassword = (email) => {
 
 module.exports = {
   signUp,
-  grabUserPassword,
+  grabUserPassword
 }

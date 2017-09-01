@@ -1,11 +1,29 @@
-function errorHandler (error, request, response, next) {
-  // grab error codes
-  // switch case for rendering error messages
-  console.log('erro.stack', error.stack);
-  // response.status(errorCode).render('users/login', {error: error.message})
-  // response.render('users/login', {error: `${errorMessage}`})
+function userErrorHandler (error, request, response, next) {
+  switch(error.message) {
+    case ('Passwords do not match'):
+      console.log(error.stack)
+      response.status(301).render('users/signup', {error: error.message})
+      break
+    case ('Incorrect Password') :
+      console.log(error.stack)
+      response.status(301).render('users/login', {error: error.message})
+      break
+    case ('No User Found') :
+      console.log(error.stack);
+      response.status(301).render('users/login', {error: error.message})
+      break
+    case ('Failed to Sign Up User') :
+      console.log(error.stack);
+      response.status(301).render('users/login', {error: error.message})
+      break
+  }
+}
+
+const contactErrorHandler = (error, request, response, next) => {
+  console.log('contact Error: ', error.stack)
 }
 
 module.exports = {
-  errorHandler
+  userErrorHandler,
+  contactErrorHandler
 }

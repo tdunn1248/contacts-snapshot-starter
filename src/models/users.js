@@ -2,14 +2,14 @@ const dbUsers = require('./db/users')
 const {hashPassword} = require('./bcrypt')
 const {assignUserRole} = require('./model-helpers')
 
-function signUp(email, password) {
+const signUp = (email, password) => {
   return hashPassword(password)
   .then(hashPassword => {
     return dbUsers.create(email, hashPassword, assignUserRole(email))
   })
 }
 
-function grabUserPassword(email) {
+const grabUserPassword = (email) => {
   return dbUsers.read(email)
 }
 

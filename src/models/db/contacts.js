@@ -1,6 +1,6 @@
 const db = require('./db')
 
-const create = function(contact){
+const create = (contact) => {
   return db.query(`
     INSERT INTO
       contacts (first_name, last_name)
@@ -12,7 +12,7 @@ const create = function(contact){
     .catch(error => error);
 }
 
-const readAll = function(){
+const readAll = () => {
   return db.query(`
     SELECT
       *
@@ -21,7 +21,7 @@ const readAll = function(){
     `, []).catch(error => error);
 }
 
-const readOne = function(contactId){
+const readOne = (contactId) => {
   return db.one(`
     SELECT * FROM contacts WHERE id=$1::int LIMIT 1
     `,
@@ -29,7 +29,7 @@ const readOne = function(contactId){
     .catch(error => error);
 }
 
-const deleteSingle = function(contactId){
+const deleteSingle = (contactId) => {
   return db.query(`
     DELETE FROM
       contacts
@@ -40,7 +40,7 @@ const deleteSingle = function(contactId){
     .catch(error => error);
 }
 
-const searchByName = function(searchQuery){
+const searchByName = (searchQuery) => {
   return db.query(`
     SELECT
       *

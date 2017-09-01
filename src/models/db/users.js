@@ -1,6 +1,6 @@
 const db = require('./db')
 
-const create = function(email, password, role){
+const create = (email, password, role) => {
   return db.query(`
     INSERT INTO
     users (email, password, role)
@@ -12,7 +12,7 @@ const create = function(email, password, role){
     .catch(error => error)
 }
 
-const read = function(email) {
+const read = (email) => {
   return db.query(`
     SELECT email, password, role
     FROM users

@@ -18,8 +18,7 @@ router.post('/signup', (request, response, next) => {
       request.session.username = user[0].email
       request.session.role = user[0].role
       response.redirect('/')
-    })
-    .catch(error => next(error))
+    }).catch(error => next(error))
   }
 })
 

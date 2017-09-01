@@ -7,5 +7,5 @@ function errorHandler (error, request, response, next) {
 }
 
 module.exports = {
-  errorHandlexr
+  errorHandler
 }

@@ -1,5 +1,5 @@
 const user = require('../../models/users')
-const {comparePasswords} = require('../../models/bcrypt')
+const {comparePassword} = require('../../models/bcrypt')
 const {errorHandler} = require('../error-middleware')
 const {assignUserSession} = require('../route-helpers')
 const router = require('express').Router()
@@ -30,11 +30,11 @@ router.post('/login', (request, response, next) => {
   const {email, password} = request.body
   user.grabUserPassword(email)
   .then(user => {
-    comparePasswords(password, user[0].password)
+    comparePassword(password, user[0].password)
     .then(validLogin => {
       if (!validLogin) { next(new Error('Incorrect Password'))}
       else {
-        assignUserSession(user)
+        assignUserSession(user, request)
         response.redirect('/')
       }
     })

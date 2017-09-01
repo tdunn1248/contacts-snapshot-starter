@@ -14,6 +14,7 @@ const create = function(email, password, role){
       password,
       role
     ])
+    .catch(error => error)
 }
 
 const readPassword = function(email) {
@@ -25,7 +26,25 @@ const readPassword = function(email) {
   [
     email
   ])
+  .catch(error => error) // t
 }
+
+// CHECK USER STATUS
+// const readUserRole = function(email) {
+//   return db.query(`
+//     SELECT
+//       role
+//     FROM
+//       users
+//     WHERE
+//       email = $1
+//   `,
+//   [
+//     email
+//   ])
+// }
+//
+// readUserRole('td').then(console.log)
 
 module.exports = {
   create,

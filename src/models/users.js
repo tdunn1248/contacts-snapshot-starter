@@ -1,24 +1,23 @@
-const DBUSERS = require('./db/users')
+const dbUsers = require('./db/users')
 const bcrypt = require('./bcrypt')
 
 function signUp(email, password) {
-  let role
+  let role 
   return bcrypt.hash(password).then(hashPassword => {
-    if (checkAdminStatus(email)) {
+    if (confirmAdminStatus(email)) {
       role = 'admin'
     } else {
       role = 'regular'
     }
-    return DBUSERS.create(email,hashPassword, role)
+    return dbUsers.create(email, hashPassword, role)
   })
 }
 
-
-function obtainUserPassword(email) {
-  return DBUSERS.readPassword(email)
+function grabUserPassword(email) {
+  return dbUsers.readPassword(email)
 }
 
-function checkAdminStatus(email) {
+function confirmAdminStatus(email) {
   if (email.includes('.admin')) {
     return true
   } else {
@@ -28,6 +27,5 @@ function checkAdminStatus(email) {
 
 module.exports = {
   signUp,
-  obtainUserPassword,
-  obtainUserPassword
+  grabUserPassword,
 }

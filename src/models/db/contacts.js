@@ -8,11 +8,7 @@ const create = function(contact){
       ($1::text, $2::text)
     RETURNING
       *
-    `,
-    [
-      contact.first_name,
-      contact.last_name,
-    ])
+    `,[contact.first_name, contact.last_name,])
     .catch(error => error);
 }
 
@@ -22,8 +18,7 @@ const readAll = function(){
       *
     FROM
       contacts
-    `, [])
-    .catch(error => error);
+    `, []).catch(error => error);
 }
 
 const readOne = function(contactId){

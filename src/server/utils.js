@@ -15,4 +15,8 @@ const assignSession = function(request, response, next) {
    next()
 }
 
-module.exports = {renderError, confirmUserSessionSession, assignSession}
+module.exports = {
+  renderError,
+  confirmUserSessionSession,
+  assignSession
+}

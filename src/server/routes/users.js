@@ -2,7 +2,6 @@ const user = require('../../models/users')
 const {comparePasswords} = require('../../models/bcrypt')
 const {errorHandler} = require('../error-middleware')
 const {assignUserSession} = require('../route-helpers')
-
 const router = require('express').Router()
 
 router.get('/signup', (request, response, next) => {
@@ -18,7 +17,8 @@ router.post('/signup', (request, response, next) => {
     .then(user => {
       assignUserSession(user, request)
       response.redirect('/')
-    }).catch(error => next(error))
+    })
+    .catch(error => next(error))
   }
 })
 
@@ -38,7 +38,8 @@ router.post('/login', (request, response, next) => {
         response.redirect('/')
       }
     })
-  }).catch(error => next(error))
+  })
+  .catch(error => next(error))
 })
 
 router.get('/signout', (request, response) => {

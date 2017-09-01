@@ -6,4 +6,6 @@ function errorHandler (error, request, response, next) {
   // response.render('users/login', {error: `${errorMessage}`})
 }
 
-module.exports = {errorHandler}
+module.exports = {
+  errorHandlexr
+}

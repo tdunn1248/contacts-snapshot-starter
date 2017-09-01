@@ -1,10 +1,10 @@
-const express = require('express')
+const expressSession = require('express-session')
 const router = require('express').Router()
 const bodyParser = require('body-parser')
-const expressSession = require('express-session')
+const express = require('express')
 
-router.use(express.static('public'))
 router.use(bodyParser.urlencoded({ extended: false }))
+router.use(express.static('public'))
 
 router.use(expressSession({
   secret: 'keyboard cat',

@@ -8,7 +8,8 @@ const create = function(email, password, role){
     ($1::text, $2::text, $3::text)
     RETURNING
     email, password, role
-    `, [email, password, role]).catch(error => error)
+    `, [email, password, role])
+    .catch(error => error)
 }
 
 const read = function(email) {
@@ -16,7 +17,8 @@ const read = function(email) {
     SELECT email, password, role
     FROM users
     WHERE email = $1
-  `, [email]).catch(error => error)
+  `, [email])
+  .catch(error => error)
 }
 
 module.exports = {

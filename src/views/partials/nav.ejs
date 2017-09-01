@@ -4,13 +4,16 @@
     <input name="q" type="search" placeholder="search" value="<%= query %>" autofocus/>
     <input type="submit" style="display: none" />
   </form>
-  <% if (regular) { %>
-    <a href="/users/signout">Sign Out</a>
-  <% } else if (admin) { %>
-    <a href="/contacts/new">Create Contact</a>
-    <a href="/users/signout">Sign Out</a>
-  <% } else {%>
-    <a href="/users/login">Login</a>
-    <a href="/users/signup">Signup</a>
-  <% } %>
+    <% if (role == 'regular') { %>
+      <a href="/users/signout">Sign Out</a>
+      <% } %>
+
+      <% if (role == 'admin') { %>
+        <a href="/contacts/new">Create Contact</a>
+        <a href="/users/signout">Sign Out</a>
+      <% } %>
+      <% if (role == undefined) { %>
+        <a href="/users/login">Login</a>
+        <a href="/users/signup">Signup</a>
+      <% } %>
 </nav>

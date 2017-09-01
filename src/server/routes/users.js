@@ -22,7 +22,9 @@ router.route('/signup')
   })
 
 router.route('/login')
-  .get((request, response) => {response.status(200).render('users/login')})
+  .get((request, response) => {
+    response.render('users/login')
+  })
   .post((request, response, next) => {
     const {email, password} = request.body
     user.grabUserPassword(email)

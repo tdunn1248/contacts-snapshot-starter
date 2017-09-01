@@ -2,7 +2,7 @@ const expressSession = require('express-session')
 const router = require('express').Router()
 const bodyParser = require('body-parser')
 const express = require('express')
-const {confirmUserSession, assignSession, confirmAdminRole} = require('./middleware-helpers')
+const {confirmUserSession, assignSession, confirmAdminRole} = require('./middleware_helpers/middleware-helpers')
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static('public'))

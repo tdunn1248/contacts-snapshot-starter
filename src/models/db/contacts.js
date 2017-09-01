@@ -18,7 +18,8 @@ const readAll = () => {
       *
     FROM
       contacts
-    `, []).catch(error => error);
+    `, [])
+    .catch(error => error)
 }
 
 const readOne = (contactId) => {

@@ -2,8 +2,8 @@ const router = require('express').Router()
 const contacts = require('./contacts')
 const users = require('./users')
 const contact = require('../../models/contacts')
-const {obtainUserRole} = require('../utils')
-const {contactErrorHandler} = require('../error-middleware')
+const {obtainUserRole} = require('../middleware_helpers/utils')
+const {contactErrorHandler} = require('../middleware_helpers/error-middleware')
 
 router.get('/', (request, response, next) => {
   if(!request.session.username) {
@@ -15,8 +15,8 @@ router.get('/', (request, response, next) => {
   }
 })
 
-router.use(contactErrorHandler)
 router.use('/contacts', contacts)
 router.use('/users', users)
+router.use(contactErrorHandler)
 
 module.exports = router

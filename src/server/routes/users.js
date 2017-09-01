@@ -1,6 +1,6 @@
-const {assignUserSession} = require('../middleware-helpers')
-const {userErrorHandler} = require('../error-middleware')
-const {comparePassword} = require('../../models/bcrypt')
+const {assignUserSession} = require('../middleware_helpers/middleware-helpers')
+const {userErrorHandler} = require('../middleware_helpers/error-middleware')
+const {comparePassword} = require('../../models/model_helpers/bcrypt')
 const user = require('../../models/users')
 const router = require('express').Router()
 
@@ -38,10 +38,11 @@ router.route('/login')
     .catch(error => next(new Error('No User Found')))
   })
 
-router.get('/signout', (request, response) => {
-  request.session.username = null
-  request.session.cookie.expires = new Date()
-  response.redirect('/')
+router.route('/signout')
+  .get((request, response) => {
+    request.session.username = null
+    request.session.cookie.expires = new Date()
+    response.redirect('/')
 })
 
 router.use(userErrorHandler)

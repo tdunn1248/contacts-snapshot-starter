@@ -1,28 +1,13 @@
 const dbUsers = require('./db/users')
-const bcrypt = require('./bcrypt')
+const {hashPassword} = require('./bcrypt')
+const {assignUserRole} = require('./model-helpers')
 
 function signUp(email, password) {
-  let role 
-  return bcrypt.hash(password).then(hashPassword => {
-    if (confirmAdminStatus(email)) {
-      role = 'admin'
-    } else {
-      role = 'regular'
-    }
-    return dbUsers.create(email, hashPassword, role)
-  })
+  return dbUsers.create(email, hashPassword(password), assignUserRole(email))
 }
 
 function grabUserPassword(email) {
   return dbUsers.read(email)
-}
-
-function confirmAdminStatus(email) {
-  if (email.includes('.admin')) {
-    return true
-  } else {
-    return false
-  }
 }
 
 module.exports = {

@@ -1,51 +1,39 @@
-const DbContacts = require('../../db/contacts')
-const {renderError} = require('../utils')
+const contacts = require('../../models/contacts')
+const {contactErrorHandler} = require('../error-middleware')
 
 const router = require('express').Router()
 
 router.get('/new', (request, response) => {
-  response.render('new')
+  response.status(200).render('contacts/new')
 })
 
 router.post('/', (request, response, next) => {
-  DbContacts.createContact(request.body)
-    .then(function(contact) {
-      if (contact) return response.redirect(`/contacts/${contact[0].id}`)
-      next()
-    })
-    .catch( error => renderError(error, response, response) )
+  contacts.add(request.body)
+    .then(contact => {if (contact) return response.redirect(`/contacts/${contact[0].id}`)})
+    .catch(error => next(new Error('Failed to add contact')))
 })
 
 router.get('/:contactId', (request, response, next) => {
-  const contactId = request.params.contactId
+  const {contactId} = request.params
   if (!contactId || !/^\d+$/.test(contactId)) return next()
-  DbContacts.getContact(contactId)
-    .then(function(contact) {
-      if (contact) return response.render('show', { contact })
-      next()
-    })
-    .catch( error => renderError(error, response, response) )
+  contacts.retrieveOne(contactId)
+    .then(contact => {if (contact) return response.status(200).render('contacts/show', { contact })})
+    .catch(error => next(new Error('Failed to lookup contact')))
 })
 
-
 router.get('/:contactId/delete', (request, response, next) => {
-  const contactId = request.params.contactId
-  DbContacts.deleteContact(contactId)
-    .then(function(contact) {
-      if (contact) return response.redirect('/')
-      next()
-    })
-    .catch( error => renderError(error, response, response) )
+  contacts.remove(request.params.contactId)
+    .then(contact => {if (contact) return response.redirect('/')})
+    .catch(error => next(new Error('Failed to delete contact')))
 })
 
 router.get('/search', (request, response, next) => {
   const query = request.query.q
-  DbContacts.searchForContact(query)
-    .then(function(contacts) {
-      if (contacts) return response.render('index', { query, contacts })
-      next()
-    })
-    .catch( error => renderError(error, response, response) )
+  contacts.searchFor(query)
+    .then(contacts => {if (contacts) return response.status(200).render('index', { query, contacts })})
+    .catch(error => next(new Error('Failed to lookup contact')))
 })
+
+router.use(contactErrorHandler)
 
 module.exports = router

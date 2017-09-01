@@ -1,6 +1,6 @@
 const db = require('./db')
 
-const createContact = function(contact){
+const create = (contact) => {
   return db.query(`
     INSERT INTO
       contacts (first_name, last_name)
@@ -8,25 +8,20 @@ const createContact = function(contact){
       ($1::text, $2::text)
     RETURNING
       *
-    `,
-    [
-      contact.first_name,
-      contact.last_name,
-    ])
+    `,[contact.first_name, contact.last_name,])
     .catch(error => error);
 }
 
-const getContacts = function(){
+const readAll = () => {
   return db.query(`
     SELECT
       *
     FROM
       contacts
-    `, [])
-    .catch(error => error);
+    `, []).catch(error => error);
 }
 
-const getContact = function(contactId){
+const readOne = (contactId) => {
   return db.one(`
     SELECT * FROM contacts WHERE id=$1::int LIMIT 1
     `,
@@ -34,7 +29,7 @@ const getContact = function(contactId){
     .catch(error => error);
 }
 
-const deleteContact = function(contactId){
+const deleteSingle = (contactId) => {
   return db.query(`
     DELETE FROM
       contacts
@@ -45,7 +40,7 @@ const deleteContact = function(contactId){
     .catch(error => error);
 }
 
-const searchForContact = function(searchQuery){
+const searchByName = (searchQuery) => {
   return db.query(`
     SELECT
       *
@@ -59,9 +54,9 @@ const searchForContact = function(searchQuery){
 }
 
 module.exports = {
-  createContact,
-  getContacts,
-  getContact,
-  deleteContact,
-  searchForContact
+  create,
+  readAll,
+  readOne,
+  deleteSingle,
+  searchByName
 }

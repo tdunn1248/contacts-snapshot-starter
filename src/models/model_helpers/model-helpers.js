@@ -1,5 +1,5 @@
-module.exports = {  
-  assignUserRole: function(email) {
+module.exports = {
+  assignUserRole: (email) => {
     if (email.includes('.admin')) {
       return role = 'admin'
     } else {

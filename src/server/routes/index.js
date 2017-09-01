@@ -11,7 +11,8 @@ router.get('/', (request, response) => {
     response.status(401).redirect('/users/login')
   } else {
     CONTACT.retrieveAll()
-    .then((contacts) => {response.status(200).render('index', { contacts, user: request.session.username })})
+    // check user status
+    .then((contacts) => {response.status(200).render('contacts/index', { contacts, regular: request.session.username })})
     .catch( err => console.log('err', err) )
   }
 })

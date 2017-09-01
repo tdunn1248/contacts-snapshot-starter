@@ -1,34 +1,13 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const app = express()
-const path = require('path')
 const routes = require('./server/routes');
-const expressSession = require('express-session')
 const {renderError} = require('./server/utils')
+const middleware = require('./server/middleware')
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views')
 
-app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ extended: false }))
-
-app.use((request, response, next) => {
-  response.locals.query = ''
-  response.locals.error = ''
-  response.locals.user = null
-  next()
-})
-
-app.use(expressSession({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    expires: 6000000
-  }
-}))
-
-
+app.use('/', middleware)
 app.use('/', routes)
 
 app.use((request, response) => {

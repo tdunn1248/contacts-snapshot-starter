@@ -11,14 +11,15 @@ router.get('/signup', (request, response, next) => {
 router.post('/signup', (request, response, next) => {
   const {email, password, confirm_password} = request.body
   if (password !== confirm_password) {
-    next(new Error('Please confirm passwords'))
+    next(new Error('Passwords do not match'))
   } else {
     user.signUp(email, password)
     .then(user => {
       request.session.username = user[0].email
+      request.session.role = user[0].role
       response.redirect('/')
     })
-    .catch(next(new Error('Database rejected entry')))
+    .catch(error => next(error))
   }
 })
 
@@ -36,10 +37,11 @@ router.post('/login', (request, response, next) => {
         next(new Error('Incorrect Password'))
       } else {
         request.session.username = user[0].email
+        request.session.role = user[0].role
         response.redirect('/')
       }
     })
-  }).catch(next(new Error('Incorrect Email'))) // instead return error from database catch and 
+  }).catch(error => next(error))
 })
 
 router.get('/signout', (request, response) => {

@@ -6,15 +6,6 @@ const expressSession = require('express-session')
 router.use(express.static('public'))
 router.use(bodyParser.urlencoded({ extended: false }))
 
-router.use((request, response, next) => {
-  // call check user status
-  response.locals.query = ''
-  response.locals.error = ''
-  response.locals.regular = null
-  response.locals.admin = null
-  next()
-})
-
 router.use(expressSession({
   secret: 'keyboard cat',
   resave: false,
@@ -23,5 +14,13 @@ router.use(expressSession({
     expires: 6000000
   }
 }))
+
+router.use((request, response, next) => {
+  response.locals.query = ''
+  response.locals.error = ''
+  response.locals.regular = null
+  response.locals.admin = null
+  next()
+})
 
 module.exports = router

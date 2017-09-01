@@ -1,17 +1,22 @@
-const CONTACT = require('../../models/contacts')
-const {renderError} = require('../utils')
+const contact = require('../../models/contacts')
+const {renderError, assignSession} = require('../utils')
+const {erroHandler} = require('../error-middleware')
 
 const router = require('express').Router()
+
+// router.use('/', assignSession)
+
+// use error middleware at the bottom
+// send error codes and/messages there
 
 router.get('/new', (request, response) => {
   response.render('new')
 })
 
 router.post('/', (request, response, next) => {
-  CONTACT.add(request.body)
+  contact.add(request.body)
     .then(function(contact) {
       if (contact) return response.redirect(`/contacts/${contact[0].id}`)
-      next()
     })
     .catch( error => renderError(error, response, response) )
 })
@@ -19,17 +24,16 @@ router.post('/', (request, response, next) => {
 router.get('/:contactId', (request, response, next) => {
   const contactId = request.params.contactId
   if (!contactId || !/^\d+$/.test(contactId)) return next()
-  CONTACT.retrieveOne(contactId)
+  contact.retrieveOne(contactId)
     .then(function(contact) {
-      if (contact) return response.render('show', { contact })
-      next()
+      if (contact) return response.render('contacts/show', { contact })
     })
     .catch( error => renderError(error, response, response) )
 })
 
 router.get('/:contactId/delete', (request, response, next) => {
   const contactId = request.params.contactId
-  CONTACT.remove(contactId)
+  contact.remove(contactId)
     .then(function(contact) {
       if (contact) return response.redirect('/')
       next()
@@ -39,7 +43,7 @@ router.get('/:contactId/delete', (request, response, next) => {
 
 router.get('/search', (request, response, next) => {
   const query = request.query.q
-  CONTACT.searchFor(query)
+  contact.searchFor(query)
     .then(function(contacts) {
       if (contacts) return response.render('index', { query, contacts })
       next()

@@ -7,46 +7,19 @@ const create = function(email, password, role){
     VALUES
     ($1::text, $2::text, $3::text)
     RETURNING
-    email, password
-    `,
-    [
-      email,
-      password,
-      role
-    ])
-    .catch(error => error)
+    email, password, role
+    `, [email, password, role]).catch(error => error)
 }
 
-const readPassword = function(email) {
+const read = function(email) {
   return db.query(`
-    SELECT email, password
+    SELECT email, password, role
     FROM users
     WHERE email = $1
-  `,
-  [
-    email
-  ])
-  .catch(error => error) // t
+  `, [email]).catch(error => error)
 }
-
-// CHECK USER STATUS
-// const readUserRole = function(email) {
-//   return db.query(`
-//     SELECT
-//       role
-//     FROM
-//       users
-//     WHERE
-//       email = $1
-//   `,
-//   [
-//     email
-//   ])
-// }
-//
-// readUserRole('td').then(console.log)
 
 module.exports = {
   create,
-  readPassword
+  read
 }

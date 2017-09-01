@@ -14,7 +14,7 @@ function signUp(email, password) {
 }
 
 function grabUserPassword(email) {
-  return dbUsers.readPassword(email)
+  return dbUsers.read(email)
 }
 
 function confirmAdminStatus(email) {

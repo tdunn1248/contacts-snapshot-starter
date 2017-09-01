@@ -4,10 +4,15 @@ const renderError = function(error, response, response){
 
 const confirmUserSessionSession = function(request, response, next) {
   if (!request.session.username) {
-    response.render('login')
+    response.render('users/login')
   } else {
     next()
   }
 }
 
-module.exports = {renderError, confirmUserSessionSession}
+const assignSession = function(request, response, next) {
+   response.locals.role = request.session.role
+   next()
+}
+
+module.exports = {renderError, confirmUserSessionSession, assignSession}

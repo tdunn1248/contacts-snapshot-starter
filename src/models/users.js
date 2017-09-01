@@ -3,8 +3,7 @@ const {hashPassword} = require('./model_helpers/bcrypt')
 const {assignUserRole} = require('./model_helpers/model-helpers')
 
 const signUp = (email, password) => {
-  return hashPassword(password)
-  .then(hashPassword => {
+  return hashPassword(password).then(hashPassword => {
     return dbUsers.create(email, hashPassword, assignUserRole(email))
   })
 }

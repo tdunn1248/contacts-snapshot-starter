@@ -1,12 +1,11 @@
-const user = require('../../models/users')
-const {comparePassword} = require('../../models/bcrypt')
+const {assignUserSession} = require('../middleware-helpers')
 const {userErrorHandler} = require('../error-middleware')
-const {assignUserSession} = require('../route-helpers')
+const {comparePassword} = require('../../models/bcrypt')
+const user = require('../../models/users')
 const router = require('express').Router()
 
-
 router.route('/signup')
-  .get((request, response, next) => {response.status(200).render('users/signup')})
+  .get((request, response) => {response.status(200).render('users/signup')})
   .post((request, response, next) => {
     const {email, password, confirm_password} = request.body
     if (password !== confirm_password) {
@@ -22,9 +21,7 @@ router.route('/signup')
   })
 
 router.route('/login')
-  .get((request, response) => {
-    response.render('users/login')
-  })
+  .get((request, response) => {response.render('users/login')})
   .post((request, response, next) => {
     const {email, password} = request.body
     user.grabUserPassword(email)

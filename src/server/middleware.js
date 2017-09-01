@@ -18,8 +18,9 @@ router.use(expressSession({
 router.use((request, response, next) => {
   response.locals.query = ''
   response.locals.error = ''
-  response.locals.regular = null
-  response.locals.admin = null
+  response.locals.role = null
+  // response.locals.regular = null
+  // response.locals.admin = null
   next()
 })
 

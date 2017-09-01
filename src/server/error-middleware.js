@@ -1,4 +1,6 @@
 function userErrorHandler (error, request, response, next) {
+  console.log(error);
+  console.log('here???');
   switch(error.message) {
     case ('Passwords do not match'):
       console.log(error.stack)

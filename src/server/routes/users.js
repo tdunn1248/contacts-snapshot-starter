@@ -1,6 +1,5 @@
-const {assignUserSession} = require('../middleware_helpers/middleware-helpers')
+const {assignUserStatus, assignUserSession} = require('../middleware_helpers/middleware-helpers')
 const {userErrorHandler} = require('../middleware_helpers/error-middleware')
-const {comparePassword} = require('../../models/model_helpers/bcrypt')
 const user = require('../../models/users')
 const router = require('express').Router()
 
@@ -11,33 +10,26 @@ router.route('/signup')
     if (password !== confirm_password) {
       next(new Error('Passwords do not match'))
     } else {
-      console.log('got here');
-      user.signUp(email, password)
-      .then(user => {
-        console.log('dddddddd',user);
-        assignUserSession(user, request)
+      user.Signup(email, password).then(user => {
+        assignUserStatus(user[0], request)
         response.redirect('/')
       })
-      .catch(error => next(new Error('Failed to Sign Up User')))
+      .catch(error => next(error))
     }
   })
 
 router.route('/login')
   .get((request, response) => {response.render('users/login')})
   .post((request, response, next) => {
-    const {email, password} = request.body
-    user.grabUserPassword(email)
-    .then(user => {
-      comparePassword(password, user[0].password)
-      .then(validLogin => {
-        if (!validLogin) { next(new Error('Incorrect Password'))}
-        else {
-          assignUserSession(user, request)
-          response.redirect('/')
-        }
-      })
+    const {userName, password} = request.body
+    user.ConfirmPassword(userName, password).then(user => {
+      if (!user.confirmed) { next(new Error('Incorrect Password'))}
+      else {
+        assignUserSession(user, request)
+        response.redirect('/')
+      }
     })
-    .catch(error => next(new Error('No User Found')))
+    .catch(error => next(error))
   })
 
 router.route('/signout')

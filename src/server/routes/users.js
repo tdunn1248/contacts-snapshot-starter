@@ -1,4 +1,4 @@
-const {assignUserStatus, assignUserSession} = require('../middleware_helpers/middleware-helpers')
+const {assignUserStatus, assignUserSession} = require('../middleware_helpers/utils')
 const {userErrorHandler} = require('../middleware_helpers/error-middleware')
 const user = require('../../models/users')
 const router = require('express').Router()
@@ -7,11 +7,10 @@ router.route('/signup')
   .get((request, response) => {response.status(200).render('users/signup')})
   .post((request, response, next) => {
     const {email, password, confirm_password} = request.body
-    if (password !== confirm_password) {
-      next(new Error('Passwords do not match'))
-    } else {
+    if (password !== confirm_password) {next(new Error('Passwords do not match'))}
+      else {
       user.Signup(email, password).then(user => {
-        assignUserStatus(user[0], request)
+        assignUserStatus(user, request)
         response.redirect('/')
       })
       .catch(error => next(error))
@@ -23,7 +22,7 @@ router.route('/login')
   .post((request, response, next) => {
     const {userName, password} = request.body
     user.ConfirmPassword(userName, password).then(user => {
-      if (!user.confirmed) { next(new Error('Incorrect Password'))}
+      if (!user.confirmed) {next(new Error('Incorrect Password'))}
       else {
         assignUserSession(user, request)
         response.redirect('/')

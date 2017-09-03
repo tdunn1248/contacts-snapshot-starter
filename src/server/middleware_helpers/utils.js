@@ -8,11 +8,7 @@ module.exports = {
     request.session.role = user.role
   },
   obtainUserRole: (request) => {
-    if (request.session.role === 'regular') {
-      return 'regular'
-    }
-    if (request.session.role === 'admin') {
-      return 'admin'
-    }
+    if (request.session.role === 'regular') {return 'regular'}
+    if (request.session.role === 'admin') {return 'admin'}
   }
 }

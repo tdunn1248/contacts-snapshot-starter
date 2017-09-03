@@ -7,11 +7,12 @@ router.route('/signup')
   .get((request, response) => {response.status(200).render('users/signup')})
   .post((request, response, next) => {
     const {email, password, confirm_password} = request.body
-    if (password !== confirm_password) {next(new Error('Passwords do not match'))}
+    if (password !== confirm_password) {next(error)}
       else {
-      user.Signup(email, password).then(user => {
-        assignUserStatus(user, request)
-        response.redirect('/')
+      user.Signup(email, password)
+            .then(user => {
+              assignUserStatus(user, request)
+              response.redirect('/')
       })
       .catch(error => next(error))
     }
@@ -21,11 +22,11 @@ router.route('/login')
   .get((request, response) => {response.render('users/login')})
   .post((request, response, next) => {
     const {userName, password} = request.body
-    user.ConfirmPassword(userName, password).then(user => {
-      if (!user.confirmed) {next(new Error('Incorrect Password'))}
-      else {
-        assignUserSession(user, request)
-        response.redirect('/')
+    user.ConfirmPassword(userName, password)
+      .then(user => {if (!user.confirmed) {next(error)}
+        else {
+          assignUserSession(user, request)
+          response.redirect('/')
       }
     })
     .catch(error => next(error))
